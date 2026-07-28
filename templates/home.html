@@ -654,6 +654,37 @@
         text-align: center;
       }
     }
+
+    @media (max-width: 480px) {
+      .layout-wrapper {
+        padding: 100px 12px 40px;
+      }
+      .form-section {
+        padding: 20px 16px;
+      }
+      .form-submit-footer {
+        padding: 24px 16px;
+      }
+      .btn-submit {
+        width: 100%;
+        justify-content: center;
+      }
+      .result-dock {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+      }
+      .result-badge {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .stress-options {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 

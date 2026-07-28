@@ -210,7 +210,7 @@
 
     .hero-h1 {
       font-family: var(--font-display);
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-size: clamp(2rem, 6vw, 4.5rem);
       font-weight: 600;
       line-height: 1.1;
       letter-spacing: -0.02em;
@@ -262,7 +262,7 @@
       margin: 0 auto;
       padding: 48px 24px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 32px;
     }
 
@@ -674,6 +674,27 @@
     }
 
     /* ─── MOBILE RESPONSIVE ─── */
+    .mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 16px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+      padding: 0;
+    }
+
+    .mobile-menu-btn .bar {
+      height: 2px;
+      width: 100%;
+      background-color: var(--text);
+      border-radius: 2px;
+      transition: var(--transition-smooth);
+    }
+
     @media (max-width: 1024px) {
       .hero-section {
         grid-template-columns: 1fr;
@@ -719,12 +740,50 @@
       }
     }
 
-    @media (max-width: 640px) {
-      .nav-links {
-        display: none;
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: flex;
       }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--surface);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 999;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-links.active {
+        right: 0;
+      }
+      /* Hamburger animations */
+      .mobile-menu-btn.active .bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .mobile-menu-btn.active .bar:nth-child(2) {
+        opacity: 0;
+      }
+      .mobile-menu-btn.active .bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+
+    @media (max-width: 640px) {
       nav {
         padding: 0 16px;
+      }
+      .hero-section {
+        padding-top: 110px;
+        padding-bottom: 60px;
+        gap: 40px;
       }
       .hero-visual img {
         border-radius: 8px;
@@ -744,6 +803,37 @@
         flex-direction: column;
         gap: 20px;
         text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+      }
+      .hero-buttons .btn {
+        width: 100%;
+      }
+      .nav-actions {
+        gap: 8px;
+      }
+      .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      .preview-content {
+        padding: 20px 16px;
+      }
+      .preview-gauge-row {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+      }
+      .metric-bar-bg {
+        margin: 0 8px;
       }
     }
     /* ─── PRELOADER STYLE ─── */
@@ -811,7 +901,7 @@
         <span>MindNova</span>
       </a>
 
-      <ul class="nav-links">
+      <ul class="nav-links" id="nav-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#how-it-works">Methodology</a></li>
       </ul>
@@ -824,6 +914,12 @@
         </a>
         <a href="/prediction" class="btn btn-primary">Get Assessment</a>
       </div>
+
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
     </div>
   </nav>
 
@@ -844,13 +940,9 @@
       </div>
     </section>
 
-    <!-- ── METRICS STRIP ── -->
+    <!-- ── METRICS STRIP ──
     <section class="metrics-section">
       <div class="metrics-container reveal">
-        <div class="metric-card">
-          <span class="metric-number">12</span>
-          <span class="metric-desc">Parameters Screened</span>
-        </div>
         <div class="metric-card">
           <span class="metric-number">R²</span>
           <span class="metric-desc">High-Fidelity Accuracy</span>
@@ -864,7 +956,7 @@
           <span class="metric-desc">Privacy Preservation</span>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- ── FEATURES ── -->
     <section class="features-section" id="features">
@@ -1028,7 +1120,7 @@
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // Preloader Timeout Dismiss (3.5 seconds)
+    // Preloader Timeout Dismiss (1.2 seconds for better responsiveness)
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const loader = document.getElementById('preloader');
@@ -1038,8 +1130,27 @@
             loader.style.visibility = 'hidden';
           }, 500); // Wait for transition to complete
         }
-      }, 3500);
+      }, 1200);
     });
+
+    // Mobile Hamburger Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    if (mobileMenuBtn && navLinks) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+
+      // Close menu when clicking a link
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenuBtn.classList.remove('active');
+          navLinks.classList.remove('active');
+        });
+      });
+    }
   </script>
 </body>
 </html>
