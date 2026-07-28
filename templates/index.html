@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindNova — Cognitive Assessment & Mental Wellness</title>
+  <meta name="description" content="A clinical-grade cognitive wellness screening tool. Discover data-driven insights into your focus, stress, and lifestyle." />
+  
+  <!-- Premium Editorial Fonts: Playfair Display for Claude-like serif titles, Inter for clean body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────────
+       DESIGN SYSTEM (Anthropic Claude-inspired Editorial Theme)
+    ───────────────────────────────────────────── */
+    :root {
+      /* Claude's signature warm cream background & dark bronze-brown text */
+      --bg: #F9F6F0;
+      --surface: #F3ECE0;
+      --surface-hover: #EBE2D4;
+      --border: rgba(25, 25, 25, 0.08);
+      --border-bright: rgba(25, 25, 25, 0.15);
+      
+      /* Claude's warm rust-terracotta primary accent */
+      --primary: #D96B43;
+      --primary-hover: #C55D37;
+      --primary-dim: rgba(217, 107, 67, 0.06);
+      --primary-border: rgba(217, 107, 67, 0.25);
+      
+      --text: #191919;
+      --text-muted: #595959;
+      --text-dim: #7F7F7F;
+      
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', sans-serif;
+
+      --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--bg);
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      z-index: 100;
+      background: rgba(249, 246, 240, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .logo-dot {
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-dot svg {
+      width: 14px;
+      height: 14px;
+      fill: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border-bright);
+      color: var(--text-muted);
+      background: transparent;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: 1px solid var(--primary-border);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(217, 107, 67, 0.15);
+    }
+
+    /* ─── HERO ─── */
+    .hero-section {
+      position: relative;
+      padding: 180px 24px 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-content {
+      z-index: 10;
+    }
+
+    .hero-tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--primary);
+    }
+
+    .hero-p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-visual img {
+      width: 100%;
+      max-width: 480px;
+      border-radius: 12px;
+      border: 1px solid var(--border-bright);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ─── METRICS STRIP ─── */
+    .metrics-section {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .metrics-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .metric-card {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-number {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .metric-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ─── SECTION TITLE ─── */
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 64px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .section-h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    /* ─── FEATURES ─── */
+    .features-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 24px;
+    }
+
+    .features-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .feature-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      gap: 20px;
+      transition: var(--transition-smooth);
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-bright);
+      background: var(--surface);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon .material-symbols-outlined {
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    .feature-info h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature-info p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Dynamic dashboard preview card */
+    .preview-card {
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 100px;
+    }
+
+    .preview-head {
+      padding: 16px 24px;
+      background: var(--surface-hover);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .window-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      opacity: 0.3;
+    }
+
+    .window-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: 12px;
+      font-family: var(--font-sans);
+    }
+
+    .preview-content {
+      padding: 32px;
+    }
+
+    .preview-gauge-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+    }
+
+    .gauge-wrapper {
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+
+    .gauge-wrapper svg {
+      width: 80px;
+      height: 80px;
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: var(--surface-hover);
+      stroke-width: 6;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 220;
+      stroke-dashoffset: 70;
+    }
+
+    .gauge-number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .gauge-labels h4 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .gauge-labels p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .preview-metrics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .preview-metric-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .metric-label-txt {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      width: 80px;
+    }
+
+    .metric-bar-bg {
+      flex-grow: 1;
+      height: 3px;
+      background: var(--surface-hover);
+      margin: 0 16px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .metric-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    .metric-value-txt {
+      font-size: 0.8rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ─── METHODOLOGY / STEPS ─── */
+    .steps-section {
+      border-top: 1px solid var(--border);
+      padding: 120px 24px;
+    }
+
+    .steps-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+
+    .step-card:hover {
+      border-color: var(--border-bright);
+    }
+
+    .step-num-large {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--bg);
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      line-height: 1;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--primary-dim);
+      border: 1px solid var(--primary-border);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .step-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ─── CTA BANNER ─── */
+    .cta-section {
+      padding: 60px 24px 120px;
+    }
+
+    .cta-banner {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      padding: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-left {
+      max-width: 540px;
+      z-index: 5;
+    }
+
+    .cta-h3 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .cta-p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .cta-right {
+      z-index: 5;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 40px 24px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-info {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links-list {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .footer-links-list a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+    }
+
+    .footer-links-list a:hover {
+      color: var(--text);
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── MOBILE RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .hero-section {
+        grid-template-columns: 1fr;
+        padding-top: 140px;
+        gap: 60px;
+        text-align: center;
+      }
+      .hero-p {
+        margin: 0 auto 40px;
+      }
+      .hero-buttons {
+        justify-content: center;
+      }
+      .hero-visual {
+        order: -1;
+      }
+      .features-wrapper {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+      .preview-card {
+        position: static;
+        max-width: 580px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .metrics-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        padding: 32px 16px;
+      }
+      .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .cta-banner {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+        padding: 60px 40px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+      nav {
+        padding: 0 16px;
+      }
+      .hero-visual img {
+        border-radius: 8px;
+      }
+      .metrics-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .feature-card {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .cta-banner {
+        padding: 48px 24px;
+      }
+      .footer-container {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+    }
+    /* ─── PRELOADER STYLE ─── */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .preloader-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: pulseBrand 2s ease-in-out infinite;
+    }
+    .preloader-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .preloader-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+    }
+    .preloader-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(217, 107, 67, 0.15);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes pulseBrand {
+      0%, 100% { transform: scale(0.98); opacity: 0.9; }
+      50% { transform: scale(1.02); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── PRELOADER ── -->
+  <div id="preloader">
+    <div class="preloader-content">
+      <img src="/static/mindnova_logo.jpg" alt="MindNova Logo" class="preloader-logo" />
+      <span class="preloader-title">MindNova</span>
+    </div>
+    <div class="preloader-spinner"></div>
+  </div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-container">
+        <img src="/static/mindnova_logo.jpg" alt="MindNova Logo" style="width: 28px; height: 28px; border-radius: 6px;" />
+        <span>MindNova</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">Methodology</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://github.com/Shivam122gupta/Ai-powerd-Mental-Health-Predictor" target="_blank" class="btn btn-secondary" style="padding: 8px 12px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px;">
+          <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor" style="display: block;">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+          </svg>
+        </a>
+        <a href="/prediction" class="btn btn-primary">Get Assessment</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ── HERO ── -->
+    <section class="hero-section">
+      <div class="hero-content reveal">
+        <span class="hero-tagline">Cognitive Intelligence Platform</span>
+        <h1 class="hero-h1">Your mind,<br><em>measured precisely.</em></h1>
+        <p class="hero-p">Enter your daily parameters once. Our production Machine Learning models instantly evaluate your lifestyle vectors to produce a clear, clinical-grade cognitive performance assessment.</p>
+        <div class="hero-buttons">
+          <a href="/prediction" class="btn btn-primary" style="padding: 12px 28px;">Start Assessment</a>
+          <a href="#how-it-works" class="btn btn-secondary" style="padding: 12px 24px;">See Methodology</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal" style="transition-delay: 0.1s;">
+        <img src="/static/mind_aesthetic.jpg" alt="MindNova Dashboard" />
+      </div>
+    </section>
+
+    <!-- ── METRICS STRIP ── -->
+    <section class="metrics-section">
+      <div class="metrics-container reveal">
+        <div class="metric-card">
+          <span class="metric-number">12</span>
+          <span class="metric-desc">Parameters Screened</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-number">R²</span>
+          <span class="metric-desc">High-Fidelity Accuracy</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-number">&lt;1s</span>
+          <span class="metric-desc">Local Pipeline Computation</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-number">100%</span>
+          <span class="metric-desc">Privacy Preservation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FEATURES ── -->
+    <section class="features-section" id="features">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Parameters</span>
+        <h2 class="section-h2">Multi-Dimensional Tracking</h2>
+      </div>
+
+      <div class="features-wrapper">
+        <div class="feature-cards">
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined">bedtime</span>
+            </div>
+            <div class="feature-info">
+              <h3>Sleep Architecture</h3>
+              <p>Evaluating continuous hours and restorative cycles dynamically mapped into normalized scalar weights.</p>
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined">devices</span>
+            </div>
+            <div class="feature-info">
+              <h3>Digital Saturation</h3>
+              <p>Analyzing average daily interaction metrics and usage purpose vectors to gauge focus retention profiles.</p>
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined">bolt</span>
+            </div>
+            <div class="feature-info">
+              <h3>Stress Tolerance</h3>
+              <p>Ordinal scaling layers tracking load indicators, mapped carefully against your target lifestyle baseline.</p>
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <span class="material-symbols-outlined">directions_run</span>
+            </div>
+            <div class="feature-info">
+              <h3>Physical Recovery</h3>
+              <p>Accounting for metabolic recovery time and movement parameters to balance mental output models.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard preview block -->
+        <div class="preview-card reveal">
+          <div class="preview-head">
+            <span class="window-dot"></span>
+            <span class="window-title">Realtime Inference Vector Preview</span>
+          </div>
+          <div class="preview-content">
+            <div class="preview-gauge-row">
+              <div class="gauge-wrapper">
+                <svg viewBox="0 0 80 80">
+                  <circle class="gauge-bg" cx="40" cy="40" r="34"></circle>
+                  <circle class="gauge-fill" cx="40" cy="40" r="34"></circle>
+                </svg>
+                <div class="gauge-number">7.2</div>
+              </div>
+              <div class="gauge-labels">
+                <h4>7.2 / 10</h4>
+                <p>Cognitive resilience score · Well above baseline</p>
+              </div>
+            </div>
+            <div class="preview-metrics-list">
+              <div class="preview-metric-item">
+                <span class="metric-label-txt">Sleep Cycle</span>
+                <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 70%;"></div></div>
+                <span class="metric-value-txt">7.0h</span>
+              </div>
+              <div class="preview-metric-item">
+                <span class="metric-label-txt">Screen Time</span>
+                <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 45%;"></div></div>
+                <span class="metric-value-txt">3.5h</span>
+              </div>
+              <div class="preview-metric-item">
+                <span class="metric-label-txt">Exercise</span>
+                <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 60%;"></div></div>
+                <span class="metric-value-txt">1.0h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── METHODOLOGY / HOW IT WORKS ── -->
+    <section class="steps-section" id="how-it-works">
+      <div class="container steps-container">
+        <div class="section-header reveal">
+          <span class="section-eyebrow">Methodology</span>
+          <h2 class="section-h2">Empirical Assessment</h2>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-num-large">01</div>
+            <span class="step-badge">Phase 01</span>
+            <h3 class="step-title">Parameters Intake</h3>
+            <p class="step-text">Provide exact numerical metrics spanning age, sleep duration, physical recovery levels, and digital interface saturation profiles.</p>
+          </div>
+          <div class="step-card reveal" style="transition-delay: 0.08s;">
+            <div class="step-num-large">02</div>
+            <span class="step-badge">Phase 02</span>
+            <h3 class="step-title">Vector Transformation</h3>
+            <p class="step-text">Data is parsed dynamically via our ColumnTransformer pipeline, scaling, imputing, and encoding inputs seamlessly on the fly.</p>
+          </div>
+          <div class="step-card reveal" style="transition-delay: 0.16s;">
+            <div class="step-num-large">03</div>
+            <span class="step-badge">Phase 03</span>
+            <h3 class="step-title">Inference Engine</h3>
+            <p class="step-text">Our tuned Random Forest regression model computes the features against thousands of data combinations to output your actual score.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta-section">
+      <div class="cta-banner reveal">
+        <div class="cta-left">
+          <h3 class="cta-h3">Ready to evaluate your baseline?</h3>
+          <p class="cta-p">Get a complete performance score instantly. Absolutely no data storage, zero credit cards, no tracking.</p>
+        </div>
+        <div class="cta-right">
+          <a href="/prediction" class="btn btn-primary" style="padding: 14px 32px; font-size: 0.9rem;">Start Assessing Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-container">
+      <span class="footer-info">© 2026 MindNova.</span>
+      <ul class="footer-links-list">
+        <li><a href="/prediction">Inference Route</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">Methodology</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth Scroll Reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: "0px 0px -40px 0px"
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Preloader Timeout Dismiss (3.5 seconds)
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('preloader');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => {
+            loader.style.visibility = 'hidden';
+          }, 500); // Wait for transition to complete
+        }
+      }, 3500);
+    });
+  </script>
+</body>
+</html>

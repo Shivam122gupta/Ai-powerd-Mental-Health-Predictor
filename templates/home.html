@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindNova — Cognitive Assessment Input</title>
+  <meta name="description" content="Calculate your cognitive performance score with our optimized assessment interface." />
+  
+  <!-- Premium Editorial Fonts matching landing page -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────────
+       DESIGN SYSTEM (Anthropic Claude-inspired Editorial Theme)
+    ───────────────────────────────────────────── */
+    :root {
+      --bg: #F9F6F0;
+      --surface: #F3ECE0;
+      --surface-hover: #EBE2D4;
+      --border: rgba(25, 25, 25, 0.08);
+      --border-bright: rgba(25, 25, 25, 0.15);
+      
+      --primary: #D96B43;
+      --primary-hover: #C55D37;
+      --primary-dim: rgba(217, 107, 67, 0.06);
+      --primary-border: rgba(217, 107, 67, 0.25);
+      
+      --text: #191919;
+      --text-muted: #595959;
+      --text-dim: #7F7F7F;
+      
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', sans-serif;
+
+      --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--bg);
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      z-index: 100;
+      background: rgba(249, 246, 240, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .logo-dot {
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-dot svg {
+      width: 14px;
+      height: 14px;
+      fill: #fff;
+    }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-back:hover {
+      color: var(--text);
+    }
+
+    /* Progress bar */
+    .progress-track {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.15s linear;
+    }
+
+    /* ─── GRID LAYOUT ─── */
+    .layout-wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 140px 24px 100px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* ─── SIDEBAR / INSTRUCTIONS ─── */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-h2 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .sidebar-steps {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0.4;
+      transition: var(--transition-smooth);
+    }
+
+    .step-item.active {
+      opacity: 1;
+    }
+
+    .step-item-num {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      width: 20px;
+    }
+
+    .step-item-text {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* ─── MAIN COLUMN ─── */
+    .main-column {
+      animation: pageReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes pageReveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .page-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    /* ─── RESULT DOCK ─── */
+    .result-dock {
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 12px;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      flex-wrap: wrap;
+    }
+
+    .result-dock.error {
+      background: rgba(239, 68, 68, 0.05);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .gauge-wrapper {
+      position: relative;
+      width: 64px;
+      height: 64px;
+    }
+
+    .gauge-wrapper svg {
+      width: 64px;
+      height: 64px;
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: var(--surface-hover);
+      stroke-width: 5;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 188.5;
+      stroke-dashoffset: 188.5;
+      transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gauge-number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .result-info h3 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .result-info .score-display {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .result-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .result-badge {
+      margin-left: auto;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    .badge-high { background: rgba(217, 107, 67, 0.08); border-color: var(--primary-border); color: var(--primary); }
+    .badge-mid { background: rgba(234, 179, 8, 0.08); border-color: rgba(234, 179, 8, 0.25); color: #b45309; }
+    .badge-low { background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.22); color: #b91c1c; }
+
+    /* ─── FORM ─── */
+    .form-card {
+      background: var(--bg);
+      border: 1px solid var(--border-bright);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    }
+
+    .form-section {
+      padding: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-icon .material-symbols-outlined {
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .section-title h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.010em;
+    }
+
+    .section-title p {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .fields-grid .span-2 {
+      grid-column: span 2;
+    }
+
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .input-control {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      outline: none;
+      transition: var(--transition-smooth);
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .input-control:focus {
+      border-color: var(--primary-hover);
+      background: var(--bg);
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid var(--text-muted);
+      pointer-events: none;
+    }
+
+    .input-wrapper-sfx {
+      position: relative;
+    }
+
+    .input-sfx {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .input-control-sfx {
+      padding-right: 48px;
+    }
+
+    .field-hint {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    /* ─── STRESS SELECTOR ─── */
+    .stress-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stress-option input {
+      display: none;
+    }
+
+    .stress-option label {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 12px;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      text-align: center;
+    }
+
+    .stress-option label .icon {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+    }
+    
+    .stress-option input:checked + label .icon {
+      color: var(--primary);
+    }
+
+    .stress-option label .name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .stress-option label .desc {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+    }
+
+    .stress-option label:hover {
+      border-color: var(--border-bright);
+    }
+
+    .stress-option input:checked + label {
+      border-color: var(--primary-border);
+      background: var(--primary-dim);
+    }
+
+    .stress-option input:checked + label .name {
+      color: var(--primary);
+    }
+
+    /* ─── SUBMIT FOOTER ─── */
+    .form-submit-footer {
+      padding: 32px 40px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: 1px solid var(--primary-border);
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 11px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(217, 107, 67, 0.15);
+    }
+
+    .btn-submit svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-submit.loading .spinner {
+      display: block;
+    }
+
+    .btn-submit.loading .btn-icon-txt {
+      display: none;
+    }
+
+    .submit-disclaimer {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 40px 24px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-info {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── MOBILE RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .layout-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding-top: 120px;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+      .fields-grid {
+        grid-template-columns: 1fr;
+      }
+      .fields-grid .span-2 {
+        grid-column: span 1;
+      }
+      .stress-options {
+        grid-template-columns: 1fr 1fr;
+      }
+      .form-section {
+        padding: 24px;
+      }
+      .form-submit-footer {
+        padding: 24px;
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      .footer-container {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo-container">
+        <img src="/static/mindnova_logo.jpg" alt="MindNova Logo" style="width: 28px; height: 28px; border-radius: 6px;" />
+        <span>MindNova</span>
+      </a>
+
+      <a href="/" class="nav-back">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to home
+      </a>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-bar"></div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="layout-wrapper">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h2 class="sidebar-h2">Your Mind,<br>Measured.</h2>
+        <p class="sidebar-desc">Provide your parameters across the sections. The pipeline automatically encodes inputs to render the vector evaluation.</p>
+        
+        <ul class="sidebar-steps">
+          <li class="step-item active" id="ss-1">
+            <span class="step-item-num">01</span>
+            <span class="step-item-text">Personal Details</span>
+          </li>
+          <li class="step-item" id="ss-2">
+            <span class="step-item-num">02</span>
+            <span class="step-item-text">Digital Footprint</span>
+          </li>
+          <li class="step-item" id="ss-3">
+            <span class="step-item-num">03</span>
+            <span class="step-item-text">Lifestyle Balance</span>
+          </li>
+          <li class="step-item" id="ss-4">
+            <span class="step-item-num">04</span>
+            <span class="step-item-text">Stress Tolerance</span>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- MAIN FORM COLUMN -->
+      <div class="main-column">
+        <h1 class="page-h1">Cognitive Vector Input</h1>
+        <p class="page-desc">12 lifestyle vectors · computed server-side · results in &lt;1s</p>
+
+        <!-- RESULT PANEL -->
+        {% if prediction_text %}
+        <div id="result-panel" class="result-dock {% if 'Error' in prediction_text %}error{% endif %}">
+          {% if 'Error' not in prediction_text %}
+            {% set sc = prediction_text | float %}
+            <div class="gauge-wrapper">
+              <svg viewBox="0 0 72 72">
+                <circle class="gauge-bg" cx="36" cy="36" r="30"></circle>
+                <circle class="gauge-fill" id="gauge-fill" cx="36" cy="36" r="30"></circle>
+              </svg>
+              <div class="gauge-number" id="gauge-val">–</div>
+            </div>
+            <div class="result-info">
+              <h3>Inference Evaluation</h3>
+              <div class="score-display" id="res-score">{{ prediction_text }} / 10</div>
+              <p>Random Forest Regressor Vector Result</p>
+            </div>
+            {% if sc >= 7 %}
+              <span class="result-badge badge-high">High Resilience</span>
+            {% elif sc >= 4 %}
+              <span class="result-badge badge-mid">Moderate</span>
+            {% else %}
+              <span class="result-badge badge-low">Vulnerable</span>
+            {% endif %}
+          {% else %}
+            <div style="font-size: 1.5rem; opacity: 0.8;">⚠️</div>
+            <div class="result-info">
+              <h3 style="color: #b91c1c;">Inference Exception</h3>
+              <div class="score-display" style="font-size: 1rem; color: var(--text);">{{ prediction_text }}</div>
+            </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- FORM CARD -->
+        <div class="form-card">
+          <form id="pred-form" method="POST" action="/prediction">
+            
+            <!-- SECTION 1 -->
+            <div class="form-section" id="sec-1">
+              <div class="section-head">
+                <div class="section-icon">
+                  <span class="material-symbols-outlined">person</span>
+                </div>
+                <div class="section-title">
+                  <h3>Personal Details</h3>
+                  <p>Demographic contextual vectors for the regression engine</p>
+                </div>
+              </div>
+              <div class="fields-grid">
+                <div class="input-field">
+                  <label class="input-label" for="Age">Age</label>
+                  <div class="input-wrapper-sfx">
+                    <input class="input-control input-control-sfx" type="number" id="Age" name="Age" min="10" max="80" placeholder="22" value="{{ request.form.Age if request.form.Age }}" required />
+                    <span class="input-sfx">yrs</span>
+                  </div>
+                </div>
+                <div class="input-field">
+                  <label class="input-label" for="Gender">Gender</label>
+                  <div class="select-wrapper">
+                    <select class="input-control" id="Gender" name="Gender" required>
+                      <option value="" disabled {% if not request.form.Gender %}selected{% endif %}>Select Vector</option>
+                      {% for g in ['Male','Female','Non-binary','Prefer not to say'] %}
+                      <option value="{{ g }}" {% if request.form.Gender == g %}selected{% endif %}>{{ g }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="input-field">
+                  <label class="input-label" for="Academic_Level">Academic Status</label>
+                  <div class="select-wrapper">
+                    <select class="input-control" id="Academic_Level" name="Academic_Level" required>
+                      <option value="" disabled {% if not request.form.Academic_Level %}selected{% endif %}>Select Status</option>
+                      {% for l in ['High School','Undergraduate','Postgraduate'] %}
+                      <option value="{{ l }}" {% if request.form.Academic_Level == l %}selected{% endif %}>{{ l }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="input-field">
+                  <label class="input-label" for="Country">Country Vector</label>
+                  <div class="select-wrapper">
+                    <select class="input-control" id="Country" name="Country" required>
+                      <option value="" disabled {% if not request.form.Country %}selected{% endif %}>Select Region</option>
+                      {% for c in ['India','USA','UK','Canada','Australia','Germany','France','Brazil','Japan','Other'] %}
+                      <option value="{{ c }}" {% if request.form.Country == c %}selected{% endif %}>{{ c }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 2 -->
+            <div class="form-section" id="sec-2">
+              <div class="section-head">
+                <div class="section-icon">
+                  <span class="material-symbols-outlined">devices</span>
+                </div>
+                <div class="section-title">
+                  <h3>Digital Footprint</h3>
+                  <p>Quantifying average daily saturation metrics</p>
+                </div>
+              </div>
+              <div class="fields-grid">
+                <div class="input-field">
+                  <label class="input-label" for="Avg_Daily_Usage_Hours">Average Daily Use</label>
+                  <div class="input-wrapper-sfx">
+                    <input class="input-control input-control-sfx" type="number" id="Avg_Daily_Usage_Hours" name="Avg_Daily_Usage_Hours" min="0" max="16" step="0.5" placeholder="3" value="{{ request.form.Avg_Daily_Usage_Hours if request.form.Avg_Daily_Usage_Hours }}" required />
+                    <span class="input-sfx">hrs</span>
+                  </div>
+                </div>
+                <div class="input-field">
+                  <label class="input-label" for="Daily_Unlocks">Unlocks Per Day</label>
+                  <input class="input-control" type="number" id="Daily_Unlocks" name="Daily_Unlocks" min="0" max="300" placeholder="30" value="{{ request.form.Daily_Unlocks if request.form.Daily_Unlocks }}" required />
+                  <span class="field-hint">Times device is unlocked daily</span>
+                </div>
+                <div class="input-field">
+                  <label class="input-label" for="Most_Used_Platform">Primary Interface</label>
+                  <div class="select-wrapper">
+                    <select class="input-control" id="Most_Used_Platform" name="Most_Used_Platform" required>
+                      <option value="" disabled {% if not request.form.Most_Used_Platform %}selected{% endif %}>Select Platform</option>
+                      {% for p in ['Instagram','YouTube','TikTok','Twitter','Facebook','Snapchat','LinkedIn','WhatsApp','Reddit','Other'] %}
+                      <option value="{{ p }}" {% if request.form.Most_Used_Platform == p %}selected{% endif %}>{{ p }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="input-field">
+                  <label class="input-label" for="Purpose_Of_Use">Primary Objective</label>
+                  <div class="select-wrapper">
+                    <select class="input-control" id="Purpose_Of_Use" name="Purpose_Of_Use" required>
+                      <option value="" disabled {% if not request.form.Purpose_Of_Use %}selected{% endif %}>Select Objective</option>
+                      {% for p in ['Entertainment','Education','Socializing','News','Work','Other'] %}
+                      <option value="{{ p }}" {% if request.form.Purpose_Of_Use == p %}selected{% endif %}>{{ p }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 3 -->
+            <div class="form-section" id="sec-3">
+              <div class="section-head">
+                <div class="section-icon">
+                  <span class="material-symbols-outlined">spa</span>
+                </div>
+                <div class="section-title">
+                  <h3>Lifestyle Balance</h3>
+                  <p>Assessing physical recovery cycles and focused study patterns</p>
+                </div>
+              </div>
+              <div class="fields-grid">
+                <div class="input-field">
+                  <label class="input-label" for="Study_Hours">Focused Study / Work</label>
+                  <div class="input-wrapper-sfx">
+                    <input class="input-control input-control-sfx" type="number" id="Study_Hours" name="Study_Hours" min="0" max="16" step="0.5" placeholder="4" value="{{ request.form.Study_Hours if request.form.Study_Hours }}" required />
+                    <span class="input-sfx">hrs</span>
+                  </div>
+                </div>
+                <div class="input-field">
+                  <label class="input-label" for="Sleep_Hours_Per_Night">Restorative Sleep</label>
+                  <div class="input-wrapper-sfx">
+                    <input class="input-control input-control-sfx" type="number" id="Sleep_Hours_Per_Night" name="Sleep_Hours_Per_Night" min="2" max="14" step="0.5" placeholder="7" value="{{ request.form.Sleep_Hours_Per_Night if request.form.Sleep_Hours_Per_Night }}" required />
+                    <span class="input-sfx">hrs</span>
+                  </div>
+                </div>
+                <div class="input-field span-2">
+                  <label class="input-label" for="Physical_Activity_Hours">Daily Physical Recovery</label>
+                  <div class="input-wrapper-sfx">
+                    <input class="input-control input-control-sfx" type="number" id="Physical_Activity_Hours" name="Physical_Activity_Hours" min="0" max="8" step="0.5" placeholder="1" value="{{ request.form.Physical_Activity_Hours if request.form.Physical_Activity_Hours }}" required />
+                    <span class="input-sfx">hrs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 4 -->
+            <div class="form-section" id="sec-4">
+              <div class="section-head">
+                <div class="section-icon">
+                  <span class="material-symbols-outlined">bolt</span>
+                </div>
+                <div class="section-title">
+                  <h3>Stress Tolerance</h3>
+                  <p>Quantifying perceived subjective stress indicators</p>
+                </div>
+              </div>
+              <div class="stress-options">
+                {% set opts = [
+                  ('Low',       'sentiment_satisfied',   'Calm'),
+                  ('Medium',    'sentiment_neutral',     'Baseline'),
+                  ('High',      'sentiment_dissatisfied', 'Elevated'),
+                  ('Very High', 'sentiment_very_dissatisfied', 'Severe')
+                ] %}
+                {% for val, icon, desc in opts %}
+                <div class="stress-option">
+                  <input type="radio" id="sl_{{ loop.index }}" name="Stress_Level" value="{{ val }}" {% if request.form.Stress_Level == val %}checked{% endif %} required />
+                  <label for="sl_{{ loop.index }}">
+                    <span class="icon material-symbols-outlined">{{ icon }}</span>
+                    <span class="name">{{ val }}</span>
+                    <span class="desc">{{ desc }}</span>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- SUBMIT FOOTER -->
+            <div class="form-submit-footer">
+              <span class="submit-disclaimer">Vectors computed client-blind on local server models.</span>
+              <button type="submit" class="btn-submit" id="submit-btn">
+                <span class="btn-icon-txt">
+                  <svg viewBox="0 0 24 24" width="14" height="14">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+                </span>
+                <span class="spinner"></span>
+                <span>Evaluate Vector</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-container">
+      <span class="footer-info">© 2026 MindNova.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const el = document.documentElement;
+      document.getElementById('prog-bar').style.width =
+        (el.scrollTop / (el.scrollHeight - el.clientHeight) * 100) + '%';
+    }, { passive: true });
+
+    // Sidebar active state highlights
+    const sections = ['sec-1', 'sec-2', 'sec-3', 'sec-4'];
+    const sideItems = ['ss-1', 'ss-2', 'ss-3', 'ss-4'];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const idx = sections.indexOf(e.target.id);
+          if (idx !== -1) {
+            sideItems.forEach((id, i) => {
+              document.getElementById(id)?.classList.toggle('active', i === idx);
+            });
+          }
+        }
+      });
+    }, { threshold: 0.45 });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    // Loading indicator on form submit
+    document.getElementById('pred-form').addEventListener('submit', () => {
+      const btn = document.getElementById('submit-btn');
+      btn.classList.add('loading');
+      btn.disabled = true;
+    });
+
+    // Gauge animation for result dock
+    (function () {
+      const fillArc = document.getElementById('gauge-fill');
+      const valEl = document.getElementById('gauge-val');
+      const scoreEl = document.getElementById('res-score');
+      if (!fillArc || !scoreEl) return;
+
+      const raw = parseFloat(scoreEl.textContent);
+      if (isNaN(raw)) return;
+
+      // Scroll result into viewport safely
+      document.getElementById('result-panel')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      const circumference = 2 * Math.PI * 30; // 188.5
+      const fraction = Math.min(Math.max(raw / 10, 0), 1);
+      fillArc.style.stroke = '#D96B43';
+
+      let start = null;
+      (function step(timestamp) {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / 1000, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        fillArc.style.strokeDashoffset = circumference * (1 - fraction * ease);
+        if (valEl) valEl.textContent = (raw * ease).toFixed(1);
+        if (progress < 1) requestAnimationFrame(step);
+        else if (valEl) valEl.textContent = raw.toFixed(2);
+      })();
+    })();
+  </script>
+</body>
+</html>
