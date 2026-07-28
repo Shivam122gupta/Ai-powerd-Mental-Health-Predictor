@@ -1,9 +1,11 @@
-pandas
-numpy
-seaborn
-matplotlib
+Flask==3.1.1
+gunicorn==23.0.0
+
+numpy==2.3.1
+pandas==2.3.1
 scikit-learn==1.7.1
-Flask
-gunicorn
-dill
+matplotlib==3.10.3
+seaborn==0.13.2
+dill==0.4.0
+
 -e .
