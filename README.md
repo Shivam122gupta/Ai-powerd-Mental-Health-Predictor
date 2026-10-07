@@ -1,1 +1,1 @@
-@AI - Powered Mental Health Prediction platform
+@AI - Powered Mental Health Prediction platform 
